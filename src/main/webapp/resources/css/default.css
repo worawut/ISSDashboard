@@ -1,0 +1,39 @@
+.alignLeft{
+	text-align: left;
+}
+.alignCenter{
+	text-align: center;
+}
+.alignRight{
+	text-align: right;
+}
+
+thead#dataTable_head  th{
+	/*vertical-align: top;*/
+}
+
+[class*="ui-g"] {
+	background-color: gainsboro;
+	border: 1px solid white;
+}
+
+.ui-block{
+	color: white;
+	background-color: #FFFFFF;
+	border: 1px solid white;
+}
+
+.ui-tab{
+	color: gainsboro;
+}
+
+.ui-icon, .ui-widget-content .ui-icon {
+	background-image: url(/ISSDashboard/javax.faces.resource/images/ui-icons_444444_256x240.png.xhtml?ln=primefaces-custom);
+}
+
+.ui-widget-header {
+	background: none;
+}
+.ui-tabs .ui-tabs-panel {
+	padding: 0; !important;
+}

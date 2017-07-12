@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"> 
+<h:head>
+	<title>ISS Operational Dashboard</title>
+	<!--<link rel="shortcut icon" href="#{resource['images/ais.png']}" type="image/x-icon" />-->
+	<!--Pemanggilan gambar favicon-->
+	<link rel="stylesheet" type="text/css" href="../resources/theme/theme-style.css" />
+	<!--pemanggilan file css-->
+
+
+	<script src="../resources/js/jquery-1.9.1.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		var $j = jQuery.noConflict();
+	</script>
+<script type="text/javascript">
+		//<![CDATA[
+		    
+           function validateBrowsers(){
+        	   var FF = !(window.mozInnerScreenX == null);
+   				if(FF) {
+   				// is firefox 
+   				} else { 
+   				// not firefox 
+   					alert('ระบบ support browsers Firefox เท่านั้น');
+   					window.location="/PCMWebFront/login.jsf";
+   				} 
+           }
+           
+           function isSupportBrowser() {
+	            var mybrowser=navigator.userAgent;  
+	   	        if(mybrowser.indexOf('MSIE')>0){  
+	   	        	alert('ระบบไม่ support browsers IE');
+  					window.location="/login.jsf";
+	   	        }  
+	   	        
+	   	        if(mybrowser.indexOf('Firefox')>0){  
+	   	          //  alert("Firefox");  
+	   	        }     
+	   	        if(mybrowser.indexOf('Presto')>0){  
+	   	           // alert("Opera");  
+	   	        }             
+	   	        if(mybrowser.indexOf('Chrome')>0){  
+	   	          //  alert("Chrome");  
+	   	        }     
+	   	         
+          }
+		            
+   			$j(document).ready(function($) { 
+   				//validateBrowsers();
+ 				isSupportBrowser();
+ 				
+   			 	$(":input").bind("keyup", function(e) {	      
+   			 		var value = $(this).val();
+					if(value.indexOf("'") != -1){
+	   			 	   	value = value.replace(/'/g, ""); 
+	   			 	    $(this).val(value);
+					}
+	   			 })//end :input Seleter
+   			 		 
+  			 });;//end document
+                 //]]>
+	</script>
+	<!-- สิ้นสุด javascript  -->
+</h:head>
+
+<h:body class="body-page-holder" style="position: relative">
+<ui:include src="sessionTimeOut.xhtml" /> 
+<h:form prependId="false"> 
+ <noscript>
+	 <meta http-equiv="refresh" content="0; url=/login.jsf" />
+</noscript>
+	<p:growl id="growl" showDetail="true" sticky="true" />  
+	<div id="header">
+		<div class="inHeader">
+			<div class="systmName">
+				<h:panelGroup style="float: left;font-size: 150%;font-weight: bold;"> ISS Dashboard System </h:panelGroup><br/>
+				<h:panelGroup style="float: left;">build no : <h:outputText value="#{sessionBean.userLogin.buildNo}"/></h:panelGroup>
+			</div>
+			<div class="mosAdmin">
+				<!--<font style="color: green;">Welcome</font> , <h:outputText value="#{sessionBean.fullName}"></h:outputText><br /> -->
+			<!-- 	<a href="#">Department</a> |  -->
+				<h:panelGroup> User ID : <h:outputText value="#{sessionBean.userLogin.userName}"/></h:panelGroup><br />
+				<h:panelGroup>Home Airport : <h:outputText value="#{sessionBean.userLogin.homeAirport}"/></h:panelGroup>
+				 <!--<p:commandLink  action="../login.xhtml?faces-redirect=true">
+       				 <h:outputText value="Logout" />  
+   				 </p:commandLink>  -->
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	</h:form>
+	<!-- ################################################################################################################################ -->
+	<div id="wrapper">
+		<div id="rightContent">
+			<div id="content" style="border-radius: 10px; -ms-border-radius: 10px">
+				<ui:insert name="content">Main Content</ui:insert>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div id="footer">
+			&copy; 2016 ISS Operational Dashboard <a href="#">AOT</a> | Version. <a href="#">20161201 R1</a>  | <a href="#">01.12.2016</a>
+		</div>
+	</div>
+	
+</h:body>
+
+</html>

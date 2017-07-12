@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"> 
+<h:head>
+
+	<title>ISS Operational Dashboard</title>
+	<!--<link rel="shortcut icon" href="#{resource['images/ais.png']}" type="image/x-icon" />  -->
+	<!--Pemanggilan gambar favicon-->
+	<link rel="stylesheet" type="text/css" href="../resources/theme/theme-style.css" />
+	<!--pemanggilan file css-->
+ 
+ 
+   <script src="../resources/js/jquery-1.9.1.js" type="text/javascript"></script>
+   <script type="text/javascript">
+			var $j = jQuery.noConflict();
+    </script>
+ 
+	<script type="text/javascript">
+		//<![CDATA[
+		    
+           function validateBrowsers(){
+        	   var FF = !(window.mozInnerScreenX == null);
+   				if(FF) {
+   				// is firefox 
+   				} else { 
+   				// not firefox 
+   					alert('ระบบ support browsers Firefox เท่านั้น');
+   					window.location="/PCM/login.jsf";
+   				} 
+           }
+           
+           function isSupportBrowser() {
+	            var mybrowser=navigator.userAgent;  
+	   	        if(mybrowser.indexOf('MSIE')>0){  
+	   	        	alert('ระบบไม่ support browsers IE');
+   					window.location="/login.jsf";
+	   	        }  
+	   	        
+	   	        if(mybrowser.indexOf('Firefox')>0){  
+	   	          //  alert("Firefox");  
+	   	        }     
+	   	        if(mybrowser.indexOf('Presto')>0){  
+	   	           // alert("Opera");  
+	   	        }             
+	   	        if(mybrowser.indexOf('Chrome')>0){  
+	   	          //  alert("Chrome");  
+	   	        }     
+	   	         
+           }
+           
+		            
+   			$j(document).ready(function($) { 
+   				isSupportBrowser();
+   				//validateBrowsers();
+
+   			 	$(":input").bind("keyup", function(e) {	      
+   			 		var value = $(this).val();
+					if(value.indexOf("'") != -1){
+	   			 	   	value = value.replace(/'/g, ""); 
+	   			 	    $(this).val(value);
+					}
+	   			 })//end :input Seleter
+   			 		 
+  			 });;//end document
+                 //]]>
+	</script>
+	<!-- สิ้นสุด javascript  -->
+	
+</h:head>
+
+<h:body class="body-page-holder" style="position: relative"> 
+<ui:include src="sessionTimeOut.xhtml" /> 
+<h:form prependId="false">
+	<!--<div id="header">-->
+		<!--<div class="inHeader">-->
+			<!--<div class="systmName">-->
+				<!--<div><h:panelGroup style="float: left;font-size: 150%;font-weight: bold;"> ISS Reporting System </h:panelGroup><br/></div>-->
+				<!--<div><h:panelGroup style="float: left;">build no : <h:outputText value="#{sessionBean.userLogin.buildNo}"/></h:panelGroup></div>-->
+			<!--</div>-->
+			<!--<div class="mosAdmin">-->
+				<!--&lt;!&ndash;<font style="color: green;">Welcome</font> , <h:outputText value="#{sessionBean.fullName}"></h:outputText><br /> &ndash;&gt;-->
+				<!--<div><h:panelGroup> User ID : <h:outputText value="#{sessionBean.userLogin.userName}"/></h:panelGroup><br /></div>-->
+				<!--<div><h:panelGroup>Home Airport : <h:outputText value="#{sessionBean.userLogin.homeAirport}"/></h:panelGroup></div>-->
+				<!--&lt;!&ndash;<p:commandLink actionListener="#{sessionBean.logout}" action="login.jsf?faces-redirect=true">-->
+       				 <!--<h:outputText value="Logout" />  -->
+   				 <!--</p:commandLink>&ndash;&gt;-->
+			<!--</div>-->
+			<!--<div class="clear"></div>-->
+		<!--</div>-->
+	<!--</div>-->
+</h:form>
+<!-- ################################################################################################################################ -->
+<noscript>
+	<meta http-equiv="refresh" content="0; url=/login.jsf" />
+</noscript>
+	<div id="wrapper">
+		<div id="rightContent pagecontainer">
+		<h:form>
+     	 </h:form>
+			<h3>
+				<ui:insert name="pageflow">pageflow</ui:insert>
+			</h3>
+			<div id="content" style="border-radius: 10px; -ms-border-radius: 10px">
+				<ui:insert name="content">Main Content</ui:insert>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div id="footer">
+			<a href="#">&copy; 2017 AOT - ISS Operational Dashboard</a> | <a href="https://www.facebook.com/iWorawut">© 2017 Wuddy Develop</a> | © Copyright 2017 - All rights reserved
+		</div>
+	</div>
+</h:body>
+
+</html>

@@ -1,0 +1,39 @@
+.ui-widget {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: small !important;
+}
+
+.ui-widget { /* 	font-size: 90%; */
+	font-size: small !important;
+}
+
+.ui-widget .ui-widget { /* font-size: 100%; */
+	font-size: small !important;
+}
+
+/* ======= */
+.container-bottom-right {
+	padding: 5px 5px 5px 5px;
+	margin: 1px 1px;
+	vertical-align: middle;
+	text-align: right;
+}
+
+.container-bottom-left {
+	padding: 5px 5px 5px 5px;
+	margin: 1px 1px;
+	vertical-align: middle;
+	text-align: left;
+}
+
+.container-bottom-center {
+	padding: 5px 5px 5px 5px;
+	margin: 1px 1px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+
+.alignCenter{
+	text-align: center;
+}

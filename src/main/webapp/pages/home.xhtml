@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="../templates/template.xhtml">
+    <!--<ui:param name="activeIndex" value="2" />-->
+    <ui:define name="pageflow">  </ui:define>
+    <ui:define name="content">
+        <link rel="stylesheet" type="text/css" href="${request.contextPath}/resources/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="${request.contextPath}/resources/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="${request.contextPath}/resources/css/default.css" />
+        <script type="text/javascript">
+        </script>
+        <h:form prependId="false" id="form">
+            <p:dialog modal="true" widgetVar="statusDialogNotAjax" header="Status" dynamic="true" draggable="false" closable="false" resizable="false">  Please Wait  </p:dialog>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                <p:graphicImage value="#{resource['images/ajax_loading_login.gif']}" />
+            </p:dialog>
+
+            <p:messages id="messages" />
+            <div>
+                <p:tabView>
+                    <p:tab title="Airport Performance Dashboard">
+                        <div class="dashboardTab">
+                            <center>
+
+
+                                <table style="width: 900px;">
+                                    <p:poll interval="30" listener="#{homeAction.updateDashboardDate}" update="dashboardTime" />
+                                    <p:poll interval="60" listener="#{homeAction.updateEvery1minute}" update="flightProgress" />
+                                    <p:poll interval="300" listener="#{homeAction.updateEvery5minute}" update="movement,airportInfo,paxPrm,uldBaggage,queues,criticalResources" />
+                                    <tr>
+                                        <td colspan="2" style="text-align: left;"><h2><h:outputText value="Airport Performance Dashboard" /></h2></td>
+                                        <td style="text-align: right;"><h2><h:outputText id="dashboardTime" value="#{homeAction.dashboardDate}" /></h2></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p:panel id="movement" header="Movement/OTP" styleClass="panelDashbord">
+                                                <table class="bodyPanel">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+1h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+2h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+3h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+4h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+5h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+6h"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Arrival"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.arrival1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.arrival1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.arrival2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.arrival2}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.arrival3Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.arrival3}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.arrival4Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.arrival4}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.arrival5Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.arrival5}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.arrival6Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.arrival6}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Departure"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.departure1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.departure1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.departure2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.departure2}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.departure3Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.departure3}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.departure4Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.departure4}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.departure5Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.departure5}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.departure6Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.departure6}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Towing"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.towing1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.towing1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.towing2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.towing2}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.towing3Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.towing3}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.towing4Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.towing4}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.towing5Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.towing5}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.movementDto.towing6Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.movementDto.towing6}"/></td>
+                                                    </tr>
+                                                </table>
+                                            </p:panel>
+                                        </td>
+                                        <td>
+                                            <p:panel id="airportInfo" header="Airport Info" styleClass="panelDashbord">
+                                                <table class="bodyPanel">
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Runway"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.runway1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.runway1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.runway2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.runway2}"/></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Capacity"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.capacity1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.capacity1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.capacity2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.capacity2}"/></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Demand"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.demand1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.demand1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.demand2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.demand2}"/></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Weather"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.weather1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.weather1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.weather2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.weather2}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.airportInfoDto.weather3Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.airportInfoDto.weather3}"/></td>
+                                                    </tr>
+                                                </table>
+                                            </p:panel>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p:panel id="flightProgress" header="Flight Progress" styleClass="panelDashbord">
+                                                <table class="bodyPanel">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="on Route"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="ALDT"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="AIBT"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="TOBT"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="TSAT"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="AOBT"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Movement"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.movementRuteColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.movementRute}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.movementAldtColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.movementAldt}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.movementAibtColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.movementAibt}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.movementTobtColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.movementTobt}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.movementTsatColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.movementTsat}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.movementAobtColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.movementAobt}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Alert"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.alertRuteColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.alertRute}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.alertAldtColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.alertAldt}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.alertAibtColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.alertAibt}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.alertTobtColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.alertTobt}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.alertTsatColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.alertTsat}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.flightProgressDto.alertAobtColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.flightProgressDto.alertAobt}"/></td>
+                                                    </tr>
+                                                </table>
+                                            </p:panel>
+                                        </td>
+                                        <td valign="top">
+                                            <p:panel id="Alerts" header="Alerts" styleClass="panelDashbord">
+                                                <table class="bodyPanel">
+                                                    <h:outputText value="Alerts" />
+                                                </table>
+                                            </p:panel>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p:panel id="paxPrm" header="Load(PAX/PRM)" styleClass="panelDashbord">
+                                                <table class="bodyPanel">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+1h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+2h"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Inbound"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.paxPrmDto.inbound1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.paxPrmDto.inbound1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.paxPrmDto.inbound2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.paxPrmDto.inbound2}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Transfer"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.paxPrmDto.transfer1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.paxPrmDto.transfer1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.paxPrmDto.transfer2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.paxPrmDto.transfer2}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Inbound"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.paxPrmDto.outbound1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.paxPrmDto.outbound1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.paxPrmDto.outbound2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.paxPrmDto.outbound2}"/></td>
+                                                    </tr>
+                                                </table>
+                                            </p:panel>
+                                        </td>
+                                        <td>
+                                            <p:panel id="uldBaggage" header="Load(ULD/Baggage)" styleClass="panelDashbord">
+                                                <table class="bodyPanel">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+1h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+2h"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Inbound"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.uldBaggageDto.inbound1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.uldBaggageDto.inbound1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.uldBaggageDto.inbound2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.uldBaggageDto.inbound2}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Transfer"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.uldBaggageDto.transfer1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.uldBaggageDto.transfer1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.uldBaggageDto.transfer2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.uldBaggageDto.transfer2}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Inbound"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.uldBaggageDto.outbound1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.uldBaggageDto.outbound1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.uldBaggageDto.outbound2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.uldBaggageDto.outbound2}"/></td>
+                                                    </tr>
+                                                </table>
+                                            </p:panel>
+                                        </td>
+                                        <td>
+                                            <p:panel id="queues" header="Queues(Lanes/Wait)" styleClass="panelDashbord">
+                                                <table class="bodyPanel">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="Check-In"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="Passport"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="Security"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Terminal1"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal1CColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal1C}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal1PColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal1P}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal1SColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal1S}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Terminal2"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal2CColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal2C}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal2PColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal2P}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal2SColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal2S}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Terminal3"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal3CColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal3C}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal3PColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal3P}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.queuesDto.terminal3SColor}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.queuesDto.terminal3S}"/></td>
+                                                    </tr>
+                                                </table>
+                                            </p:panel>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" valign="top">
+                                            <p:panel id="criticalResources" header="Critical Resources" styleClass="panelDashbord">
+                                                <table class="bodyPanel">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+1h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+2h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+3h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+4h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+5h"/></td>
+                                                        <td><p:commandButton styleClass="headerColumnDashboard" type="button" value="+6h"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Stand"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.stand1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.stand1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.stand2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.stand2}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.stand3Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.stand3}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.stand4Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.stand4}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.stand5Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.stand5}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.stand6Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.stand6}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Belt"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.belt1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.belt1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.belt2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.belt2}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.belt3Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.belt3}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.belt4Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.belt4}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.belt5Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.belt5}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.belt6Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.belt6}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="De-lcing"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.deLcing1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.deLcing1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.deLcing2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.deLcing2}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.deLcing3Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.deLcing3}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.deLcing4Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.deLcing4}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.deLcing5Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.deLcing5}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.deLcing6Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.deLcing6}"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:commandButton styleClass="headerRowDashboard" type="button" value="Pushback"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.pushBack1Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.pushBack1}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.pushBack2Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.pushBack2}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.pushBack3Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.pushBack3}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.pushBack4Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.pushBack4}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.pushBack5Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.pushBack5}"/></td>
+                                                        <td><p:commandButton style="background-color: #{homeAction.criticalResourceDto.pushBack6Color}!important;" styleClass="bodyDashboard" type="button" value="#{homeAction.criticalResourceDto.pushBack6}"/></td>
+                                                    </tr>
+                                                </table>
+                                            </p:panel>
+                                        </td>
+                                        <td>
+                                            <p:panel id="opsFlash" header="OpsFlash" styleClass="panelDashbord">
+                                                <p:panel styleClass="panelOpsFlash">
+                                                    <div class="opsFlashHeader">
+                                                        <p:outputLabel style="color: red;" value="#{homeAction.opsFlashDto.description1}"/>
+                                                    </div>
+                                                    <div class="opsFlashDetail">
+                                                        <p:outputLabel value="#{homeAction.opsFlashDto.date1}"/>
+                                                    </div>
+                                                </p:panel>
+                                                <p:panel styleClass="panelOpsFlash">
+                                                    <div class="opsFlashHeader">
+                                                        <p:outputLabel style="color: red;" value="#{homeAction.opsFlashDto.description2}"/>
+                                                    </div>
+                                                    <div class="opsFlashDetail">
+                                                        <p:outputLabel value="#{homeAction.opsFlashDto.date2}"/>
+                                                    </div>
+                                                </p:panel>
+                                                <p:panel styleClass="panelOpsFlash">
+                                                    <div class="opsFlashHeader">
+                                                        <p:outputLabel style="color: red;" value="#{homeAction.opsFlashDto.description3}"/>
+                                                    </div>
+                                                    <div class="opsFlashDetail">
+                                                        <p:outputLabel value="#{homeAction.opsFlashDto.date3}"/>
+                                                    </div>
+                                                </p:panel>
+                                            </p:panel>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <br/>
+                            </center>
+                        </div>
+                    </p:tab>
+                    <p:tab title="Dashboard Widgets">
+                        <center>
+                            <p:outputPanel styleClass="panelChart">
+                                <div class="row">
+                                <div class="col-lg-4"><p:outputPanel class="panelChartBoard" >
+                                    <!--<p:chart styleClass="chartBoard" type="line" model="#{homeAction.arrivalPerformanceModel}" responsive="true"/>-->
+                                    <h:graphicImage  library="images" value="/resources/images/widgets_1.png" style="width:100%;" />
+                                </p:outputPanel></div>
+                                <div class="col-lg-4"><p:outputPanel class="panelChartBoard" >
+                                    <!--<p:chart styleClass="chartBoard" type="bar" model="#{homeAction.horizontalPaxBarModel}" responsive="true"/>-->
+                                    <h:graphicImage  library="images" value="/resources/images/widgets_2.png" style="width:100%;" />
+                                </p:outputPanel></div>
+                                <div class="col-lg-4"><p:outputPanel class="panelChartBoard" >
+                                    <!--<p:chart styleClass="chartBoard" type="bar" model="#{homeAction.loadFactorBarModel}" responsive="true"/>-->
+                                    <h:graphicImage  library="images" value="/resources/images/widgets_3.png" style="width:100%;" />
+                                </p:outputPanel></div>
+
+
+                                </div>
+                                <div class="row">
+                                <div class="col-lg-4">
+                                    <p:outputPanel class="panelChartBoard" >
+                                        <!--<p:chart styleClass="chartBoard" type="line" model="#{homeAction.departurePerformanceModel}" responsive="true" />-->
+                                        <h:graphicImage  library="images" value="/resources/images/widgets_4.png" style="width:100%;" />
+                                    </p:outputPanel>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p:outputPanel class="panelChartBoard" >
+                                        <!--<p:chart styleClass="chartBoard" type="bar" model="#{homeAction.horizontalBagBarModel}" responsive="true"/>-->
+                                        <h:graphicImage  library="images" value="/resources/images/widgets_5.png" style="width:100%;" />
+                                    </p:outputPanel>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p:outputPanel class="chartBoardTable" >
+                                        <h:graphicImage  library="images" value="/resources/images/widgets_6.png" style="width:100%;" />
+                                        <!--<p:dataTable var="val" value="#{homeAction.topMisList}">-->
+                                        <!--<p:column headerText="Inbound">-->
+                                        <!--<h:outputText value="#{val.column1}" />-->
+                                        <!--</p:column>-->
+
+                                        <!--<p:column headerText="Org   STA">-->
+                                        <!--<h:outputText value="#{val.column2}" />-->
+                                        <!--</p:column>-->
+
+                                        <!--<p:column headerText="Outbound">-->
+                                        <!--<h:outputText value="#{val.column3}" />-->
+                                        <!--</p:column>-->
+
+                                        <!--<p:column headerText="Oct   STD">-->
+                                        <!--<h:outputText value="#{val.column4}" />-->
+                                        <!--</p:column>-->
+
+                                        <!--<p:column headerText="Time  Cre Miscont.">-->
+                                        <!--<h:outputText value="#{val.column5}" />-->
+                                        <!--</p:column>-->
+                                        <!--</p:dataTable>-->
+                                    </p:outputPanel>
+                                </div>
+                                </div>
+                                <div class="row">
+                                <div class="col-lg-4">
+                                    <p:outputPanel class="panelChartBoard" >
+                                        <!--<p:chart styleClass="chartBoard" type="bar" model="#{homeAction.departureDelayBarModel}" responsive="true"/>-->
+                                        <h:graphicImage  library="images" value="/resources/images/widgets_7.png" style="width: 100%;" />
+                                    </p:outputPanel>
+                                </div>
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4"></div>
+                                </div>
+                            </p:outputPanel>
+                        </center>
+                        <br/>
+                        <br/>
+                    </p:tab>
+                </p:tabView>
+            </div>
+            <h:outputScript>
+            </h:outputScript>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

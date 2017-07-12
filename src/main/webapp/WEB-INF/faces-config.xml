@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+              version="2.0">
+
+    <!--<application>
+        <locale-config>
+            <default-locale>en_US</default-locale>
+        </locale-config>
+        <message-bundle>messages</message-bundle>
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <el-resolver>org.springframework.web.jsf.el.WebApplicationContextFacesELResolver</el-resolver>
+    </application>-->
+    <!-- primefaces Dialog -->
+    <application>
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+    </application>
+
+    <application>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <el-resolver>org.springframework.web.jsf.el.WebApplicationContextFacesELResolver</el-resolver>
+    </application>
+
+    <application>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <el-resolver>org.springframework.web.jsf.el.WebApplicationContextFacesELResolver</el-resolver>
+    </application>
+
+    <!-- JSF and Spring are integrated -->
+    <application>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+    </application>
+
+    <factory>
+        <exception-handler-factory>
+            com.iss.dashboard.exception.CustomExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
+</faces-config>
